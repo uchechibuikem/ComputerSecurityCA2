@@ -26,4 +26,14 @@ public class Main {
         }
 
     }
+    private static void printMenu() {
+        System.out.println("=====================================");
+        System.out.println(" AES File Encrypt / Decrypt System");
+        System.out.println("=====================================");
+        System.out.println(" 1. Encrypt a File");
+        System.out.println(" 2. Decrypt a File");
+        System.out.println(" 3. Quit");
+        System.out.println("=====================================");
+    }
+
 }
