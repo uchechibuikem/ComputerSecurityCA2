@@ -36,4 +36,39 @@ public class Main {
         System.out.println("=====================================");
     }
 
+    private static void encryptFile() {
+        try {
+            System.out.print("Enter filename to encrypt: ");
+            String filename = scanner.nextLine().trim();
+            Path filePath = Path.of(filename);
+
+            if (!Files.exists(filePath)) {
+                System.out.println("Error: File not found.\n");
+                return;
+            }
+
+            // Read file
+            byte[] plainBytes = Files.readAllBytes(filePath);
+
+            // Generate AES key
+            SecretKey key = generateAESKey();
+            String encodedKey = Base64.getEncoder().encodeToString(key.getEncoded());
+
+            // Encrypt
+            byte[] cipherBytes = encryptAES(plainBytes, key);
+
+            Files.write(Path.of("ciphertext.txt"), cipherBytes);
+
+            System.out.println("\nFile encrypted successfully!");
+            System.out.println("Encrypted file saved as ciphertext.txt");
+            System.out.println("Your AES Key (save this to decrypt):");
+            System.out.println(encodedKey + "\n");
+
+        } catch (IOException e) {
+            System.out.println("File read/write error: " + e.getMessage() + "\n");
+        } catch (Exception e) {
+            System.out.println("Encryption failed: " + e.getMessage() + "\n");
+        }
+    }
+
 }
