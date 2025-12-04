@@ -78,5 +78,43 @@ public class Main {
             System.out.println("Encryption failed: " + e.getMessage() + "\n");
         }
     }
+    // -------------------- TASK 3: DECRYPT --------------------
+    private static void decryptFile() {
+        try {
+            System.out.print("Enter filename to decrypt: ");
+            String filename = scanner.nextLine().trim();
+            Path filePath = Path.of(filename);
+
+            if (!Files.exists(filePath)) {
+                System.out.println("Error: File not found.\n");
+                return;
+            }
+
+            System.out.print("Enter AES key: ");
+            String keyInput = scanner.nextLine().trim();
+
+            SecretKey key;
+            try {
+                byte[] decoded = Base64.getDecoder().decode(keyInput);
+                key = new SecretKeySpec(decoded, "AES");
+            } catch (IllegalArgumentException ex) {
+                System.out.println("Invalid key format (must be Base64 encoded).\n");
+                return;
+            }
+
+            byte[] cipherBytes = Files.readAllBytes(filePath);
+            byte[] plainBytes = decryptAES(cipherBytes, key);
+
+            Files.write(Path.of("plaintext.txt"), plainBytes);
+
+            System.out.println("\nFile decrypted successfully!");
+            System.out.println("Decrypted file saved as plaintext.txt\n");
+
+        } catch (IOException e) {
+            System.out.println("File read/write error: " + e.getMessage() + "\n");
+        } catch (Exception e) {
+            System.out.println("Decryption failed: Invalid key or corrupted file.\n");
+        }
+    }
 
 }
