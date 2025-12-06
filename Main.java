@@ -11,8 +11,9 @@ import java.util.Scanner;
 public class Main {
 
 
-    Scanner scanner = new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
 
         boolean running = true;
 
@@ -46,6 +47,9 @@ public class Main {
 
     private static void encryptFile() {
         try {
+
+
+
             System.out.print("Enter filename to encrypt: ");
             String filename = scanner.nextLine().trim();
             Path filePath = Path.of(filename);
@@ -116,5 +120,24 @@ public class Main {
             System.out.println("Decryption failed: Invalid key or corrupted file.\n");
         }
     }
+    // -------------------- AES FUNCTIONS --------------------
+    private static SecretKey generateAESKey() throws Exception {
+        KeyGenerator generator = KeyGenerator.getInstance("AES");
+        generator.init(128);
+        return generator.generateKey();
+    }
 
+    private static byte[] encryptAES(byte[] data, SecretKey key) throws Exception {
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+        return cipher.doFinal(data);
+    }
+
+    private static byte[] decryptAES(byte[] data, SecretKey key) throws Exception {
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.DECRYPT_MODE, key);
+        return cipher.doFinal(data);
+    }
 }
+
+
