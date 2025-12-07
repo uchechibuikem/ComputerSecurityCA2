@@ -44,12 +44,9 @@ public class Main {
         System.out.println(" 3. Quit");
         System.out.println("=====================================");
     }
-
+            //Encrypt file method
     private static void encryptFile() {
         try {
-
-
-
             System.out.print("Enter filename to encrypt: ");
             String filename = scanner.nextLine().trim();
             Path filePath = Path.of(filename);
